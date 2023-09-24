@@ -83,3 +83,10 @@ function draw() {
 
 draw();
                                                  
+function undraw() {
+  
+  current.forEach(index => {
+    boxes[currentPosition + index].classList.remove("tetromino");
+  });
+
+}
