@@ -72,6 +72,7 @@ let currentPosition = width*6+3;
 let currentRotation = 0;
 let random = Math.floor(Math.random()*tetrominos.length);
 let current = tetrominos[random][currentRotation];
+timer = setInterval(moveDown, 1000);
 
 function draw() {
   
@@ -89,4 +90,13 @@ function undraw() {
     boxes[currentPosition + index].classList.remove("tetromino");
   });
 
+}
+
+function moveDown() {
+
+  undraw();
+  currentPosition += 1;
+  draw();
+  freeze();
+  
 }
