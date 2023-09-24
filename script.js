@@ -65,5 +65,6 @@ const iTetromino = [
   [0, width*2+1, width*4+2, width*6+3]
   
 ]
-   
+
+const tetrominos = [lTetromino, zTetromino, tTetromino, oTetromino, iTetromino]
 
