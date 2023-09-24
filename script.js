@@ -1,5 +1,6 @@
 const container = document.querySelector(".container");
 
+
 const displayGrid = (columns, rows) => {
   
   for (let i = 0; i < columns; i++) {  
@@ -74,16 +75,18 @@ let random = Math.floor(Math.random()*tetrominos.length);
 let current = tetrominos[random][currentRotation];
 timer = setInterval(moveDown, 1000);
 
+
 function draw() {
   
-  current.forEach(index =>{
+  current.forEach(index => {
     boxes[currentPosition + index].classList.add("tetromino");
   });
 
 }
 
 draw();
-                                                 
+
+
 function undraw() {
   
   current.forEach(index => {
@@ -91,6 +94,7 @@ function undraw() {
   });
 
 }
+
 
 function moveDown() {
 
@@ -100,3 +104,20 @@ function moveDown() {
   freeze();
   
 }
+
+
+function freeze() {
+  
+  if (current.some(index => boxes[currentPosition + index].classList.contains("taken"))) {
+    
+    current.forEach(index => boxes[currentPosition + index - 1].classList.add("taken"));
+    
+    currentPosition = width*6+3;
+    random = Math.floor(Math.random()*tetrominos.length);
+    current = tetrominos[random][currentRotation];
+    draw();
+    
+  }
+
+}
+  
