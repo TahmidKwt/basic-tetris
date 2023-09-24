@@ -68,3 +68,18 @@ const iTetromino = [
 
 const tetrominos = [lTetromino, zTetromino, tTetromino, oTetromino, iTetromino]
 
+let currentPosition = width*6+3;
+let currentRotation = 0;
+let random = Math.floor(Math.random()*tetrominos.length);
+let current = tetrominos[random][currentRotation];
+
+function draw() {
+  
+  current.forEach(index =>{
+    boxes[currentPosition + index].classList.add("tetromino");
+  });
+
+}
+
+draw();
+                                                 
