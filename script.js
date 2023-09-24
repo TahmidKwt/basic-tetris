@@ -17,3 +17,6 @@ const displayGrid = (columns, rows) => {
 };
 
 displayGrid(10,20);
+
+let boxes = Array.from(document.querySelectorAll(".container .row"));
+
