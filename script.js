@@ -143,4 +143,39 @@ function freeze() {
   }
 
 }
+
+
+function moveLeft() {
+
+  undraw();
+  const isLeftEdge = current.some(index => (currentPosition + index) <= width*2);
   
+  if (!isLeftEdge) {
+    currentPosition -= width*2;
+  }
+
+  if (current.some(index => boxes[currentPosition + index].classList.contains("taken"))) {
+    currentPosition += width*2;
+  }
+
+  draw();
+
+}
+
+
+function moveRight() {
+
+  undraw();
+  const isRightEdge = current.some(index => (currentposition + index) >= width*18);
+
+  if (!isRightEdge) {
+    currentPosition += width*2;
+  }
+
+  if (current.some(index => boxes[currentPosition + index].classList.contains("taken"))) {
+    currentPosition -= width*2;
+  }
+
+  draw();
+
+}
