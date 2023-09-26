@@ -204,6 +204,8 @@ function controller(e) {
     changeRotation();
   } else if (e.keyCode === 39) {
     moveRight();
+  } else if (e.keyCode === 40) {
+    moveDown();
   }
 
 }
