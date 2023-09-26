@@ -22,59 +22,77 @@ const displayGrid = (columns, rows) => {
   
 };
 
-displayGrid(10,20);
+displayGrid(10, 19);
 
 let boxes = Array.from(document.querySelectorAll(".container .row"));
 const width = 10;
 
 const lTetromino = [  
     
-  [0, 1, 2, width*2+1],  
-  [0, width*2+1, width*4+2, width*4+3], 
-  [2, width*2+1, width*2+2, width*2+3],  
-  [0, 1, width*2+1, width*4+2]
+  [1, width*2+1, width*4, width*4+1],  
+  [width*2, width*2+1, width*2+2, width*4+2], 
+  [1, 2, width*2+1, width*4+1],  
+  [0, width*2, width*2+1, width*2+2]
+   
+]
+
+const jTetromino = [  
+    
+  [0, 1, width*2+1, width*4+1],  
+  [width*2, width*2+1, width*2+2, width*4], 
+  [1, width*2+1, width*4+1, width*4+2],  
+  [2, width*2, width*2+1, width*2+2]
    
 ]
 
 const zTetromino = [
     
-  [1, width*2+2, width*2+1, width*4+2],  
-  [0, 1, width*2+2, width*2+3],  
-  [1, width*2+2, width*2+1, width*4+2],  
-  [0, 1, width*2+2, width*2+3]
+  [0, width*2, width*2+1, width*4+1],  
+  [width*2+1, width*2+2, width*4, width*4+1],  
+  [1, width*2+1, width*2+2, width*4+2],  
+  [1, 2, width*2, width*2+1]
+
+]
+
+const sTetromino = [
+    
+  [1, width*2, width*2+1, width*4],  
+  [width*2, width*2+1, width*4+1, width*4+2],  
+  [2, width*2+1, width*2+2, width*4+1],  
+  [0, 1, width*2+1, width*2+2]
 
 ]
 
 const tTetromino = [
  
-  [1, width*2+1, width*2+2, width*4+3],   
-  [width*2+1, width*2+2, width*2+3, width*4+3],    
-  [0, width*2+1, width*2+2, width*4+2],
-  [1, width*2+1, width*2+2, width*2+3]
+  [1, width*2, width*2+1, width*4+1],   
+  [width*2, width*2+1, width*2+2, width*4+1],    
+  [1, width*2+1, width*2+2, width*4+1],
+  [1, width*2, width*2+1, width*2+2]
   
 ]
 
 const oTetromino = [
 
-  [0, 1,width*2+1, width*2+2], 
-  [0, 1, width*2+1, width*2+2],   
-  [0, 1, width*2+1, width*2+2],   
-  [0, 1, width*2+1, width*2+2]
+  [0, 1, width*2, width*2+1], 
+  [0, 1, width*2, width*2+1],   
+  [0, 1, width*2, width*2+1],   
+  [0, 1, width*2, width*2+1]
  
 ]
 
 const iTetromino = [
   
-  [width*2+1, width*2+2, width*2+3, width*2+4],
-  [0, width*2+1, width*4+2, width*6+3],   
-  [width*2+1, width*2+2, width*2+3, width*2+4],
-  [0, width*2+1, width*4+2, width*6+3]
+  [1, width*2+1, width*4+1, width*6+1],
+  [width*4, width*4+1, width*4+2, width*4+3],
+  [2, width*2+2, width*4+2, width*6+2],   
+  [width*2, width*2+1, width*2+2, width*2+3]
   
 ]
 
-const tetrominos = [lTetromino, zTetromino, tTetromino, oTetromino, iTetromino]
+const tetrominos = [lTetromino, jTetromino, zTetromino, sTetromino, tTetromino, oTetromino, iTetromino]
 
-let currentPosition = width*6+3;
+let currentPosition = width*6;
 let currentRotation = 0;
 let random = Math.floor(Math.random()*tetrominos.length);
 let current = tetrominos[random][currentRotation];
@@ -117,7 +135,7 @@ function freeze() {
     
     current.forEach(index => boxes[currentPosition + index - 1].classList.add("taken"));
     
-    currentPosition = width*6+3;
+    currentPosition = width*6;
     random = Math.floor(Math.random()*tetrominos.length);
     current = tetrominos[random][currentRotation];
     draw();
