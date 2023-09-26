@@ -181,10 +181,27 @@ function moveRight() {
 }
 
 
+function changeRotation() {
+
+  undraw();
+  currentRotation++;
+
+  if (currentRotation === current.length) {
+    currentRotation = 0;
+  }
+
+  current = tetrominos[random][currentRotation];
+  draw();
+
+}
+
+
 function controller(e) {
 
   if (e.keyCode === 37) {
     moveLeft();
+  } else if (e.keyCode === 38) {
+    changeRotation();
   } else if (e.keyCode === 39) {
     moveRight();
   }
