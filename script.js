@@ -166,7 +166,7 @@ function moveLeft() {
 function moveRight() {
 
   undraw();
-  const isRightEdge = current.some(index => (currentposition + index) >= width*18);
+  const isRightEdge = current.some(index => (currentPosition + index) >= width*18);
 
   if (!isRightEdge) {
     currentPosition += width*2;
@@ -179,3 +179,16 @@ function moveRight() {
   draw();
 
 }
+
+
+function controller(e) {
+
+  if (e.keyCode === 37) {
+    moveLeft();
+  } else if (e.keyCode === 39) {
+    moveRight();
+  }
+
+}
+
+document.addEventListener("keyup", controller);
