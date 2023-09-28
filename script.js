@@ -1,4 +1,4 @@
-const container = document.querySelector(".container");
+const container = document.querySelector(".grid");
 
 
 const displayGrid = (columns, rows) => {
@@ -9,8 +9,8 @@ const displayGrid = (columns, rows) => {
     
     let lastRow = document.createElement("div");  	
     lastRow.classList.add("taken");  
-		lastRow.classList.add("row"); 
-		column.appendChild(lastRow);
+    lastRow.classList.add("row"); 
+    column.appendChild(lastRow);
     
     for (let j = 0; j < rows; j++) {  
       let row = document.createElement("div");
@@ -24,8 +24,9 @@ const displayGrid = (columns, rows) => {
 
 displayGrid(10, 19);
 
-let boxes = Array.from(document.querySelectorAll(".container .row"));
+let boxes = Array.from(document.querySelectorAll(".grid .row"));
 const width = 10;
+nextRandom = 0;
 
 const lTetromino = [  
     
@@ -119,16 +120,6 @@ function undraw() {
 }
 
 
-function moveDown() {
-
-  undraw();
-  currentPosition += 1;
-  draw();
-  freeze();
-  
-}
-
-
 function freeze() {
   
   if (current.some(index => boxes[currentPosition + index].classList.contains("taken"))) {
@@ -136,12 +127,24 @@ function freeze() {
     current.forEach(index => boxes[currentPosition + index - 1].classList.add("taken"));
     
     currentPosition = width*6;
-    random = Math.floor(Math.random()*tetrominos.length);
+    random = nextRandom;
+    nextRandom = Math.floor(Math.random()*tetrominos.length);
     current = tetrominos[random][currentRotation];
+    displayShape();
     draw();
     
   }
 
+}
+
+
+function moveDown() {
+
+  undraw();
+  currentPosition += 1;
+  draw();
+  freeze();
+  
 }
 
 
@@ -211,3 +214,52 @@ function controller(e) {
 }
 
 document.addEventListener("keyup", controller);
+
+
+const miniContainer = document.querySelector(".mini-grid");
+
+const displayMini = () => {
+
+  for (let i = 0; i < 4; i++) {
+    let mcolumn = document.createElement("div");
+    mcolumn.classList.add("mini-column");
+
+    for (let j = 0; j < 4; j++) {
+      let mrow = document.createElement("div");
+      mrow.classList.add("mini-row");
+      mcolumn.appendChild(mrow);
+    }
+    miniContainer.appendChild(mcolumn);
+  }
+
+};
+
+displayMini();
+
+const squares = document.querySelectorAll(".mini-grid .mini-row");
+const mWidth = 4;
+let mIndex = 0;
+console.log(squares);
+const upNextTetrominos = [
+
+  [1, mWidth+1, mWidth*2, mWidth*2+1],  
+  [0, 1, mWidth+1, mWidth*2+1],  
+  [0, mWidth, mWidth+1, mWidth*2+1],  
+  [1, mWidth, mWidth+1, mWidth*2],  
+  [1, mWidth, mWidth+1, mWidth*2+1],   
+  [0, 1, mWidth, mWidth+1], 
+  [1, mWidth+1, mWidth*2+1, mWidth*3+1]
+
+]
+
+
+function displayShape() {
+
+  squares.forEach(square => {
+    square.classList.remove("tetromino");
+  });
+  upNextTetrominos[nextRandom].forEach(index => {
+    squares[mIndex + index].classList.add("tetromino");
+  });
+
+}
