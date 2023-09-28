@@ -25,6 +25,9 @@ const displayGrid = (columns, rows) => {
 displayGrid(10, 19);
 
 let boxes = Array.from(document.querySelectorAll(".grid .row"));
+const startBtn = document.querySelector(".start-btn");
+const pauseBtn = document.querySelector(".pause-btn");
+const resumeBtn = document.querySelector(".resume-btn");
 const width = 10;
 nextRandom = 0;
 
@@ -97,7 +100,8 @@ let currentPosition = width*6;
 let currentRotation = 0;
 let random = Math.floor(Math.random()*tetrominos.length);
 let current = tetrominos[random][currentRotation];
-timer = setInterval(moveDown, 1000);
+let timer;
+let score = 0;
 
 
 function draw() {
@@ -132,6 +136,7 @@ function freeze() {
     current = tetrominos[random][currentRotation];
     displayShape();
     draw();
+    addScore();
     
   }
 
@@ -239,7 +244,6 @@ displayMini();
 const squares = document.querySelectorAll(".mini-grid .mini-row");
 const mWidth = 4;
 let mIndex = 0;
-console.log(squares);
 const upNextTetrominos = [
 
   [1, mWidth+1, mWidth*2, mWidth*2+1],  
@@ -263,3 +267,59 @@ function displayShape() {
   });
 
 }
+
+
+function addScore() {
+
+  for (let i = 0; i < 199; i++) {
+
+    const row = [i, i + width*2, i + width*4, i + width*6, i + width*8, i + width*10, i + width*12, i + width*14, i + width*16, i + width*18];
+
+    if (row.every(index => boxes[index].classList.contains("taken"))) {
+      row.forEach(index => {
+	boxes[index].classList.remove("taken");
+      });
+
+      const boxesRemoved = boxes.splice(i, width)
+      console.log(boxesRemoved);
+    }
+  }
+
+}
+
+
+startBtn.addEventListener("click", () => {	
+  
+  undraw();
+  currentPosition = width*6;
+  draw();
+  clearInterval(timer);
+  timer = setInterval(moveDown, 1000);	
+  nextRandom = Math.floor(Math.random()*tetrominos.length);	
+  displayShape();
+  pauseBtn.disabled = false;
+
+});
+
+pauseBtn.addEventListener("click", () => {
+
+  if(timer) {
+    clearInterval(timer);
+    timer = null;
+  }
+  resumeBtn.disabled = false;
+  pauseBtn.disabled = true;
+
+});
+
+resumeBtn.disabled = true;
+resumeBtn.addEventListener("click", () => {
+
+  if (timer === null) {
+    draw();
+    timer = setInterval(moveDown, 1000);
+  }
+  pauseBtn.disabled = false;
+  resumeBtn.disabled = true;
+
+});
