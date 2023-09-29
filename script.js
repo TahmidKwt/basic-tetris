@@ -8,8 +8,10 @@ const displayGrid = (columns, rows) => {
     column.classList.add("column");
     
     let lastRow = document.createElement("div");  	
-    lastRow.classList.add("taken");  
-    lastRow.classList.add("row"); 
+    lastRow.classList.add("taken");
+    lastRow.classList.add("last-row");
+    lastRow.classList.add("row");
+    console.log(lastRow);
     column.appendChild(lastRow);
     
     for (let j = 0; j < rows; j++) {  
@@ -28,6 +30,8 @@ let boxes = Array.from(document.querySelectorAll(".grid .row"));
 const startBtn = document.querySelector(".start-btn");
 const pauseBtn = document.querySelector(".pause-btn");
 const resumeBtn = document.querySelector(".resume-btn");
+const resetBtn = document.querySelector(".reset-btn");
+const displayScore = document.querySelector("#score");
 const width = 10;
 nextRandom = 0;
 
@@ -111,8 +115,6 @@ function draw() {
   });
 
 }
-
-draw();
 
 
 function undraw() {
@@ -271,11 +273,14 @@ function displayShape() {
 
 function addScore() {
 
-  for (let i = 0; i < 199; i++) {
+  for (let i = 0; i < 19; i++) {
 
     const row = [i, i + width*2, i + width*4, i + width*6, i + width*8, i + width*10, i + width*12, i + width*14, i + width*16, i + width*18];
 
     if (row.every(index => boxes[index].classList.contains("taken"))) {
+      score += 10;
+      displayScore.innerHTML = score;
+
       row.forEach(index => {
 	boxes[index].classList.remove("taken");
       });
@@ -288,6 +293,10 @@ function addScore() {
 }
 
 
+pauseBtn.disabled = true;
+resumeBtn.disabled = true;
+resetBtn.disabled = true;
+
 startBtn.addEventListener("click", () => {	
   
   undraw();
@@ -297,7 +306,10 @@ startBtn.addEventListener("click", () => {
   timer = setInterval(moveDown, 1000);	
   nextRandom = Math.floor(Math.random()*tetrominos.length);	
   displayShape();
+  freeze();
   pauseBtn.disabled = false;
+  resetBtn.disabled = false;
+  startBtn.disabled = true;
 
 });
 
@@ -312,7 +324,6 @@ pauseBtn.addEventListener("click", () => {
 
 });
 
-resumeBtn.disabled = true;
 resumeBtn.addEventListener("click", () => {
 
   if (timer === null) {
@@ -321,5 +332,28 @@ resumeBtn.addEventListener("click", () => {
   }
   pauseBtn.disabled = false;
   resumeBtn.disabled = true;
+
+});
+
+resetBtn.addEventListener("click", () => {
+  
+  undraw();
+  currentPosition = width*6
+  draw();
+  clearInterval(timer);
+  startBtn.disabled = false;
+  pauseBtn.disabled = true;
+  resumeBtn.disabled = true;
+  resetBtn.disabled = true;
+
+  boxes.forEach(box => {
+    box.classList.remove("tetromino");
+    box.classList.remove("taken");
+  });
+
+  let lastRow = document.querySelectorAll(".last-row");
+  lastRow.forEach(row => {
+    row.classList.add("taken");
+  });
 
 });
